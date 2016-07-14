@@ -20,7 +20,14 @@ void DaevaCodeGenerator::onMethodDecl(const Method& m)
 	{
 		std::string wrapperFunction;
 		wrapperFunction += "void aeon_wrapper_" + m.identifier + "(aeVM* vm){\n";
-		wrapperFunction += "// Code here\n";
+		wrapperFunction += "\t" + m.identifier + "(";
+		for (int i = 0; i < m.parameters.size(); ++i)
+		{
+			wrapperFunction += "0";
+			if (i < m.parameters.size()-1)
+				wrapperFunction += ",";
+		}
+		wrapperFunction += ");\n";
 		wrapperFunction += "}\n\n";
 
 		fputs(wrapperFunction.c_str(), target);

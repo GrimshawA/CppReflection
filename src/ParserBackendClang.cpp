@@ -40,6 +40,8 @@ Method BuildMethod(CXCursor cursor)
 	m.identifier = split(m.name, '(')[0];
 	printf("METHOD %s\n", m.name.c_str());
 
+	m.parameters.resize(clang_Cursor_getNumArguments(cursor));
+
 	clang_visitChildren(cursor, [](CXCursor c, CXCursor parent, CXClientData method){
 		CXCursorKind kind = clang_getCursorKind(c);
 		if (kind == CXCursor_AnnotateAttr)

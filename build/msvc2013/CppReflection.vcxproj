@@ -146,14 +146,20 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\AbstractParserBackend.cpp" />
+    <ClCompile Include="..\..\src\CodeGenerator.cpp" />
+    <ClCompile Include="..\..\src\DaevaCodeGenerator.cpp" />
     <ClCompile Include="..\..\src\Main.cpp" />
     <ClCompile Include="..\..\src\ParserBackendClang.cpp" />
     <ClCompile Include="..\..\src\ParserBackendManual.cpp" />
+    <ClCompile Include="..\..\src\Structs\Class.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\AbstractParserBackend.h" />
+    <ClInclude Include="..\..\src\CodeGenerator.h" />
+    <ClInclude Include="..\..\src\DaevaCodeGenerator.h" />
     <ClInclude Include="..\..\src\ParserBackendClang.h" />
     <ClInclude Include="..\..\src\ParserBackendManual.h" />
+    <ClInclude Include="..\..\src\Structs\Class.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
