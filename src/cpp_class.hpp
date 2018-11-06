@@ -4,6 +4,13 @@
 #include <string>
 #include <vector>
 
+class cpp_macro_invoke
+{
+public:
+	std::string macro;
+	std::string content;
+};
+
 class cpp_type
 {
 public:
@@ -37,6 +44,7 @@ class cpp_class
 {
 public:
 
+	std::vector<cpp_macro_invoke> macros;
     std::vector<cpp_function> funcs;
     std::vector<cpp_parent> parents;
     std::string name;

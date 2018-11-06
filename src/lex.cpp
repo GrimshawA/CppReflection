@@ -53,8 +53,12 @@ token get_tok(const std::string& program_source, int& i, int& line)
             token.text = "/";
 
             // we have a comment
-            while ((LastChar = program_source[++i]) != '\n') {
+			LastChar = program_source[i]; // Second /
+
+            while (LastChar != '\n' && LastChar != '\r' && LastChar != EOF) 
+			{
                 token.text += LastChar;
+				LastChar = program_source[++i];
             }
 
             token.type = RZTK_LINECOMMENT;

@@ -51,11 +51,13 @@ namespace cpp
     public:
         enum Result
         {
-            Func
+            Func,
+			MacroInvoke
         };
 
         Result type;
         cpp_function func;
+		cpp_macro_invoke macro;
     };
 
     class parser
@@ -67,6 +69,7 @@ namespace cpp
         cpp_class parseClass(parser_state& ps);
         decl_composite parseDecl(parser_state& ps);
         std::vector<cpp_parameter> parseParams(parser_state& ps);
+		cpp_type parseType(parser_state& ps);
 
         std::vector<cpp_class> classes;
     };

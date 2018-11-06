@@ -22,6 +22,11 @@ int main(int argc, char** argv)
             std::cout << "Parent: " << paren.name << std::endl;
         }
 
+		for (auto& m : c.macros)
+		{
+			std::cout << "Macro: " << m.macro << std::endl;
+		}
+
         for (auto& f : c.funcs)
         {
             std::cout << "Func: " << f.name << std::endl;
@@ -32,6 +37,8 @@ int main(int argc, char** argv)
             }
         }
     }
+
+	system("pause");
 
     return 0;
 }

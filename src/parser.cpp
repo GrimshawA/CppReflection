@@ -87,6 +87,11 @@ cpp_class parser::parseClass(parser_state& ps)
         {
             c.funcs.push_back(decl.func);
         }
+
+		if (decl.type == decl_composite::MacroInvoke)
+		{
+			c.macros.push_back(decl.macro);
+		}
     }
 
     return c;
@@ -131,6 +136,16 @@ decl_composite parser::parseDecl(parser_state& ps)
 
     ps.next();
 
+	if (ps.current().type == RZTK_OPENPAREN)
+	{
+		// Macro detected
+		compo.type = decl_composite::MacroInvoke;
+		compo.macro.macro = first;
+
+		ps.next(); ps.nextSkipSpace(); // Get out of macro
+		return compo;
+	}
+
     auto name = ps.current().text;
 
     compo.type = decl_composite::Func;
@@ -173,20 +188,22 @@ std::vector<cpp_parameter> parser::parseParams(parser_state& ps)
 
         cpp_parameter param;
         auto type = ps.current().text;
-        auto name = ps.next().text;
+
+		if (ps.next().type == RZTK_AMPERSAND)
+		{
+			ps.next();
+		}
+
+		// TODO: Handle here non named parameters
+
+        auto name = ps.current().text;
 
         // go after the name
         ps.next();
 
-        if (ps.current().type == RZTK_AMPERSAND)
-        {
-            ps.next();
-        }
-
         param.name = name;
         param.type.is_const = is_const;
         params.push_back(param);
-
 
 
         if (ps.current().type != RZTK_COMMA)
@@ -200,6 +217,15 @@ std::vector<cpp_parameter> parser::parseParams(parser_state& ps)
     }
 
     return params;
+}
+
+cpp_type parser::parseType(parser_state& ps)
+{
+	cpp_type t;
+
+	// Types must start with identity, with optional template arguments
+
+	return t;
 }
 
 }
