@@ -96,6 +96,15 @@ token get_tok(const std::string& program_source, int& i, int& line)
     }
 
     if (LastChar == ':') {
+        if (program_source[i + 1] == ':') {
+            i++;
+            token.type = RZTK_SCOPE;
+            token.text = "::";
+            return token;
+        }
+    }
+
+    if (LastChar == ':') {
         token.text = ":";
         token.type = RZTK_COLON;
         return token;

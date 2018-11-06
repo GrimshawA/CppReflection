@@ -14,9 +14,21 @@ public:
 class cpp_type
 {
 public:
+    std::string str()
+    {
+        return name;
+    }
+
     bool is_const;
     bool is_volatile;
     std::string name;
+};
+
+class cpp_field
+{
+public:
+    std::string name;
+    cpp_type    type;
 };
 
 class cpp_parameter
@@ -46,6 +58,7 @@ public:
 
 	std::vector<cpp_macro_invoke> macros;
     std::vector<cpp_function> funcs;
+    std::vector<cpp_field> fields;
     std::vector<cpp_parent> parents;
     std::string name;
 };

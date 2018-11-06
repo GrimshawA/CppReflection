@@ -81,6 +81,14 @@ cpp_class parser::parseClass(parser_state& ps)
     // Class contents loop
     while (ps.current().type != RZTK_CLOSEBRACKET)
     {
+        if (ps.current().type == RZTK_PUBLIC ||
+            ps.current().type == RZTK_PROTECTED ||
+            ps.current().type == RZTK_PRIVATE)
+        {
+            ps.next(); ps.nextSkipSpace(); // Skip <visibility>:
+            continue;
+        }
+
         auto decl = parseDecl(ps);
 
         if (decl.type == decl_composite::Func)
@@ -92,6 +100,11 @@ cpp_class parser::parseClass(parser_state& ps)
 		{
 			c.macros.push_back(decl.macro);
 		}
+
+        if (decl.type == decl_composite::Field)
+        {
+            c.fields.push_back(decl.field);
+        }
     }
 
     return c;
@@ -132,15 +145,13 @@ decl_composite parser::parseDecl(parser_state& ps)
 
     // First token of either a variable or method declaration or macro
 
-    auto first = ps.current().text;
-
-    ps.next();
+    auto first = parseType(ps);
 
 	if (ps.current().type == RZTK_OPENPAREN)
 	{
 		// Macro detected
 		compo.type = decl_composite::MacroInvoke;
-		compo.macro.macro = first;
+        compo.macro.macro = first.str();
 
 		ps.next(); ps.nextSkipSpace(); // Get out of macro
 		return compo;
@@ -156,6 +167,14 @@ decl_composite parser::parseDecl(parser_state& ps)
         ps.next();
 
         compo.func.params = parseParams(ps);
+    }
+    else
+    {
+        // This is a property
+        compo.type = decl_composite::Field;
+        compo.field.name = name;
+        ps.next(); ps.nextSkipSpace();
+        return compo;
     }
 
     // We're done with the function, skip all function body
@@ -187,9 +206,9 @@ std::vector<cpp_parameter> parser::parseParams(parser_state& ps)
         }
 
         cpp_parameter param;
-        auto type = ps.current().text;
+        auto type = parseType(ps);
 
-		if (ps.next().type == RZTK_AMPERSAND)
+        if (ps.current().type == RZTK_AMPERSAND)
 		{
 			ps.next();
 		}
@@ -224,6 +243,15 @@ cpp_type parser::parseType(parser_state& ps)
 	cpp_type t;
 
 	// Types must start with identity, with optional template arguments
+    auto identifier = ps.current().text;
+
+    ps.next();
+
+    while (ps.current().type == RZTK_SCOPE)
+    {
+        auto identifier = ps.next();
+        ps.next();
+    }
 
 	return t;
 }

@@ -14,12 +14,14 @@ public:
 
 	Q_PROPERTY()
 
-	void handle(const MessageOne one, MessageTwo two)
+	int myHealth;
+
+	void handle1(const apex::scene one, MessageTwo two)
 	{
 
 	}
 
-	void handle()
+	void handle2(const apex::scene& s)
 	{
 
 	}
@@ -34,6 +36,10 @@ public:
 		health -= e;
 	}
 
+private:
+	int health;
+	float timeLeft;
+	apex::scene scene;
 };
 
 

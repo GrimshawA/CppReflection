@@ -78,6 +78,7 @@ namespace cpp {
         RZTK_ASM,
         RZTK_INCREMENT,
         RZTK_DECREMENT,
+        RZTK_SCOPE,
         RZTK_ARROW,
         RZTK_LAMBDA, //< =>
         RZTK_IMPORT, //< import

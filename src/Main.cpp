@@ -1,5 +1,6 @@
 #include <iostream>
 #include <parser.hpp>
+#include <reflect_code_gen.hpp>
 
 int main(int argc, char** argv)
 {
@@ -27,6 +28,11 @@ int main(int argc, char** argv)
 			std::cout << "Macro: " << m.macro << std::endl;
 		}
 
+        for (auto& f : c.fields)
+        {
+            std::cout << "Field: " << f.name << std::endl;
+        }
+
         for (auto& f : c.funcs)
         {
             std::cout << "Func: " << f.name << std::endl;
@@ -37,6 +43,9 @@ int main(int argc, char** argv)
             }
         }
     }
+
+    reflect_code_gen reflect;
+    reflect.generate("character.reflect.hpp", p.classes);
 
 	system("pause");
 

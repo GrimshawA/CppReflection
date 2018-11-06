@@ -26,6 +26,12 @@ namespace cpp
             return *curr;
         }
 
+        token& peek()
+        {
+            auto n = curr + 1;
+            return *n;
+        }
+
         token& nextSkipSpace()
         {
             if (curr->type == RZTK_EOF)
@@ -52,12 +58,14 @@ namespace cpp
         enum Result
         {
             Func,
-			MacroInvoke
+            MacroInvoke,
+            Field
         };
 
         Result type;
         cpp_function func;
 		cpp_macro_invoke macro;
+        cpp_field field;
     };
 
     class parser
